@@ -2,8 +2,9 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import { randomBytes, createHash } from 'crypto';
 
-// Use /tmp for Replit persistence (survives restarts within the same repl)
-const DB_PATH = process.env.DB_PATH || path.join(process.cwd(), 'agentpay.db');
+// Use DATA_DIR or /tmp for Replit persistence (absolute path required — process.cwd() breaks in Replit)
+const _dataDir = process.env.DATA_DIR || '/tmp';
+const DB_PATH = process.env.DB_PATH || path.join(_dataDir, 'agentpay.db');
 
 let _db: Database.Database | null = null;
 

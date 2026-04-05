@@ -26,6 +26,9 @@ npm run dev
 | `VITE_STRIPE_PUBLIC_KEY` | Stripe publishable key |
 | `STRIPE_WEBHOOK_SECRET` | Webhook signing secret from Stripe Dashboard |
 | `NEXT_PUBLIC_BASE_URL` | Your deployed URL for Checkout redirects |
+| `STRIPE_GROWTH_PRICE_ID` | Pre-created Stripe Price ID for the Growth plan (`price_...`) |
+| `STRIPE_SCALE_PRICE_ID` | Pre-created Stripe Price ID for the Scale plan (`price_...`) |
+| `DATA_DIR` | Absolute path for SQLite storage (defaults to `/tmp`; set for persistence) |
 
 ## API routes
 
