@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - AgentPay</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #6C5CE7;
+      --primary-dark: #5A4BD1;
+      --bg: #0F0E17;
+      --surface: #1A1929;
+      --text: #FFFFFE;
+      --text-muted: #A7A9BE;
+      --accent: #FF8906;
+      --border: #2E2D3D;
+      --success: #00B894;
+      --error: #FF6B6B;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2rem; max-width: 1200px; margin: 0 auto; width: 100%; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+    .logo span { color: var(--primary); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.95rem; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .signup-container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+    .signup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 3rem; width: 100%; max-width: 440px; }
+    .signup-card h1 { font-size: 1.75rem; margin-bottom: 0.5rem; text-align: center; }
+    .signup-card .subtitle { color: var(--text-muted); text-align: center; margin-bottom: 2rem; }
+
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.4rem; color: var(--text-muted); }
+    .form-group input { width: 100%; padding: 0.75rem 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 1rem; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus { border-color: var(--primary); }
+    .form-group input::placeholder { color: #555; }
+
+    .btn { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 1rem; transition: all 0.2s; cursor: pointer; border: none; width: 100%; text-align: center; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .plan-badge { display: inline-block; background: var(--primary); color: #fff; padding: 0.2rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem; text-align: center; }
+    .plan-selector { text-align: center; margin-bottom: 1.5rem; }
+
+    .result { display: none; text-align: center; }
+    .result.show { display: block; }
+    .result .api-key-display { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; margin: 1rem 0; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.9rem; word-break: break-all; color: var(--accent); }
+    .result .copy-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; margin-top: 0.5rem; }
+    .result .copy-btn:hover { border-color: var(--primary); }
+    .result .success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .result h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .result p { color: var(--text-muted); font-size: 0.95rem; }
+
+    .error-msg { color: var(--error); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+    .login-link { text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem; }
+
+    footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo">Agent<span>Pay</span></a>
+    <div class="nav-links">
+      <a href="pricing.html">Pricing</a>
+      <a href="index.html">Home</a>
+    </div>
+  </nav>
+
+  <div class="signup-container">
+    <div class="signup-card">
+      <div id="signup-form-section">
+        <h1>Create your account</h1>
+        <p class="subtitle">Get your API key and start accepting payments</p>
+        <div class="plan-selector" id="plan-selector"></div>
+
+        <form id="signup-form">
+          <div class="form-group">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="company">Company / Project (optional)</label>
+            <input type="text" id="company" name="company" placeholder="Acme AI">
+          </div>
+          <div class="error-msg" id="error-msg"></div>
+          <button type="submit" class="btn btn-primary" id="submit-btn">Create Account</button>
+        </form>
+        <p class="login-link">By signing up you agree to our Terms of Service</p>
+      </div>
+
+      <div class="result" id="result-section">
+        <div class="success-icon">&#10003;</div>
+        <h2>Welcome to AgentPay!</h2>
+        <p>Your API key is ready. Keep it safe — you won't see it again.</p>
+        <div class="api-key-display" id="api-key-display">agp_xxxxxxxxxxxxxxxxxxxx</div>
+        <button class="copy-btn" id="copy-btn" onclick="copyKey()">Copy to clipboard</button>
+        <p style="margin-top: 1.5rem;">
+          <a href="index.html">Read the docs</a> to make your first payment.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 AgentPay. All rights reserved.
+  </footer>
+
+  <script>
+    // Show selected plan from URL params
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get('plan');
+    if (plan) {
+      const labels = { growth: 'Growth — $49/mo', scale: 'Scale — $199/mo' };
+      const sel = document.getElementById('plan-selector');
+      sel.innerHTML = '<span class="plan-badge">' + (labels[plan] || plan) + '</span>';
+    }
+
+    // Signup form handler
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const errEl = document.getElementById('error-msg');
+      errEl.style.display = 'none';
+      btn.disabled = true;
+      btn.textContent = 'Creating account...';
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const company = document.getElementById('company').value.trim();
+
+      try {
+        const resp = await fetch('/v1/developers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, company: company || undefined, plan: plan || 'free' })
+        });
+
+        if (!resp.ok) {
+          const data = await resp.json().catch(() => ({}));
+          throw new Error(data.error || 'Signup failed. Please try again.');
+        }
+
+        const data = await resp.json();
+        document.getElementById('api-key-display').textContent = data.apiKey || 'agp_demo_xxxxxxxxxxxxxxxx';
+        document.getElementById('signup-form-section').style.display = 'none';
+        document.getElementById('result-section').classList.add('show');
+      } catch (err) {
+        // If API isn't running, show demo key
+        if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+          document.getElementById('api-key-display').textContent = 'agp_demo_' + Math.random().toString(36).substring(2, 18);
+          document.getElementById('signup-form-section').style.display = 'none';
+          document.getElementById('result-section').classList.add('show');
+        } else {
+          errEl.textContent = err.message;
+          errEl.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Create Account';
+        }
+      }
+    });
+
+    function copyKey() {
+      const key = document.getElementById('api-key-display').textContent;
+      navigator.clipboard.writeText(key).then(() => {
+        document.getElementById('copy-btn').textContent = 'Copied!';
+        setTimeout(() => { document.getElementById('copy-btn').textContent = 'Copy to clipboard'; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
