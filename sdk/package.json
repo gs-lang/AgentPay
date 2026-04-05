@@ -1,0 +1,33 @@
+{
+  "name": "agentpay",
+  "version": "0.1.0",
+  "description": "The simplest way to add USD payments between AI agents. Powered by Stripe.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["agentpay", "ai", "agents", "payments", "stripe", "mcp"],
+  "author": "AgentPay",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gs-lang/AgentPay.git",
+    "directory": "sdk"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5",
+    "tsup": "^8"
+  },
+  "files": ["dist", "README.md"]
+}
