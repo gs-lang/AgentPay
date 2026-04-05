@@ -79,16 +79,9 @@ export async function POST(req: NextRequest) {
       }
 
       case 'customer.subscription.created': {
-        const sub = event.data.object as Stripe.Subscription;
-        const metadata = (sub as { metadata?: Record<string, string> }).metadata || {};
-        const agentId = metadata.agent_id;
-        if (agentId) {
-          const subId = `sub_local_${Date.now()}`;
-          db.prepare(`
-            INSERT OR IGNORE INTO subscriptions (id, agent_id, stripe_subscription_id, stripe_customer_id, plan, status)
-            VALUES (?, ?, ?, ?, 'growth', 'active')
-          `).run(subId, agentId, sub.id, sub.customer as string);
-        }
+        // checkout.session.completed already handles subscription creation with correct metadata.
+        // This event fires without plan metadata on the subscription object, so we skip it
+        // to avoid inserting a duplicate row with an unknown/wrong plan.
         break;
       }
 
