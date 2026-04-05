@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing - AgentPay</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #6C5CE7;
+      --primary-dark: #5A4BD1;
+      --bg: #0F0E17;
+      --surface: #1A1929;
+      --text: #FFFFFE;
+      --text-muted: #A7A9BE;
+      --accent: #FF8906;
+      --border: #2E2D3D;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+    .logo span { color: var(--primary); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.95rem; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .btn { display: inline-block; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; cursor: pointer; border: none; text-align: center; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); text-decoration: none; }
+    .btn-outline { border: 1px solid var(--border); color: var(--text); background: transparent; }
+    .btn-outline:hover { border-color: var(--primary); text-decoration: none; }
+    .btn-accent { background: var(--accent); color: #000; font-weight: 700; }
+    .btn-accent:hover { opacity: 0.9; text-decoration: none; }
+
+    .page-header { text-align: center; padding: 4rem 2rem 1rem; }
+    .page-header h1 { font-size: 2.75rem; margin-bottom: 1rem; }
+    .page-header p { color: var(--text-muted); font-size: 1.15rem; max-width: 550px; margin: 0 auto; }
+
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1050px; margin: 3rem auto; padding: 0 2rem; }
+    .plan { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem 2rem; display: flex; flex-direction: column; }
+    .plan.featured { border-color: var(--primary); position: relative; }
+    .plan.featured::before { content: 'MOST POPULAR'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 1rem; border-radius: 20px; letter-spacing: 0.05em; }
+    .plan-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .plan-price { font-size: 3rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .plan-price .period { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+    .plan-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .plan-features { list-style: none; margin-bottom: 2rem; flex: 1; }
+    .plan-features li { padding: 0.4rem 0; color: var(--text-muted); font-size: 0.95rem; }
+    .plan-features li::before { content: '\2713'; color: var(--primary); margin-right: 0.75rem; font-weight: 700; }
+    .plan .btn { width: 100%; padding: 0.75rem; font-size: 1rem; }
+
+    .comparison { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+    .comparison h2 { text-align: center; font-size: 1.75rem; margin-bottom: 2rem; }
+    .comparison table { width: 100%; border-collapse: collapse; }
+    .comparison th, .comparison td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+    .comparison th { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .comparison td { font-size: 0.95rem; }
+    .comparison td:not(:first-child), .comparison th:not(:first-child) { text-align: center; }
+    .check { color: var(--primary); font-weight: 700; }
+    .dash { color: var(--text-muted); }
+
+    footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+
+    @media (max-width: 600px) {
+      .page-header h1 { font-size: 2rem; }
+      .plan-price { font-size: 2.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo">Agent<span>Pay</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="signup.html" class="btn btn-primary">Get Started</a>
+    </div>
+  </nav>
+
+  <section class="page-header">
+    <h1>Simple, developer-friendly pricing</h1>
+    <p>Start free. Pay only when your agents start making money. No hidden fees, no surprises.</p>
+  </section>
+
+  <section class="pricing-grid">
+    <div class="plan">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">$0 <span class="period">/ month</span></div>
+      <div class="plan-desc">Build and test with zero commitment</div>
+      <ul class="plan-features">
+        <li>100 transactions / month</li>
+        <li>Sandbox mode</li>
+        <li>1 API key</li>
+        <li>Community support</li>
+        <li>Basic dashboard</li>
+        <li>Full API access</li>
+      </ul>
+      <a href="signup.html" class="btn btn-outline">Get Started Free</a>
+    </div>
+
+    <div class="plan featured">
+      <div class="plan-name">Growth</div>
+      <div class="plan-price">$49 <span class="period">/ month</span></div>
+      <div class="plan-desc">Ship agents that collect real revenue</div>
+      <ul class="plan-features">
+        <li>10,000 transactions / month</li>
+        <li>Live + sandbox mode</li>
+        <li>10 API keys</li>
+        <li>Email support (24hr response)</li>
+        <li>Advanced analytics</li>
+        <li>Webhook notifications</li>
+        <li>Subscription billing</li>
+        <li>2.9% + 30&cent; per transaction</li>
+      </ul>
+      <a href="signup.html?plan=growth" class="btn btn-accent">Start 14-Day Free Trial</a>
+    </div>
+
+    <div class="plan">
+      <div class="plan-name">Scale</div>
+      <div class="plan-price">$199 <span class="period">/ month</span></div>
+      <div class="plan-desc">For agent fleets processing serious volume</div>
+      <ul class="plan-features">
+        <li>100,000 transactions / month</li>
+        <li>Live + sandbox mode</li>
+        <li>Unlimited API keys</li>
+        <li>Priority support (4hr response)</li>
+        <li>Custom analytics &amp; reports</li>
+        <li>Webhook notifications</li>
+        <li>Subscription billing</li>
+        <li>2.4% + 30&cent; per transaction</li>
+        <li>Dedicated account manager</li>
+        <li>SOC 2 compliance reports</li>
+      </ul>
+      <a href="signup.html?plan=scale" class="btn btn-primary">Start 14-Day Free Trial</a>
+    </div>
+  </section>
+
+  <section class="comparison">
+    <h2>Feature comparison</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Free</th>
+          <th>Growth</th>
+          <th>Scale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Transactions / month</td><td>100</td><td>10,000</td><td>100,000</td></tr>
+        <tr><td>Live payments</td><td class="dash">&mdash;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Sandbox mode</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>API keys</td><td>1</td><td>10</td><td>Unlimited</td></tr>
+        <tr><td>Subscriptions</td><td class="dash">&mdash;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Webhooks</td><td class="dash">&mdash;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+        <tr><td>Analytics</td><td>Basic</td><td>Advanced</td><td>Custom</td></tr>
+        <tr><td>Support</td><td>Community</td><td>Email (24hr)</td><td>Priority (4hr)</td></tr>
+        <tr><td>Transaction fee</td><td class="dash">&mdash;</td><td>2.9% + 30&cent;</td><td>2.4% + 30&cent;</td></tr>
+        <tr><td>Dedicated manager</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">&#10003;</td></tr>
+        <tr><td>SOC 2 reports</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">&#10003;</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    &copy; 2026 AgentPay. All rights reserved.
+  </footer>
+</body>
+</html>
