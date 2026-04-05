@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentPay - Payment Infrastructure for AI Agents</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #6C5CE7;
+      --primary-dark: #5A4BD1;
+      --bg: #0F0E17;
+      --surface: #1A1929;
+      --text: #FFFFFE;
+      --text-muted: #A7A9BE;
+      --accent: #FF8906;
+      --border: #2E2D3D;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Nav */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+    .logo span { color: var(--primary); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.95rem; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .btn { display: inline-block; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; cursor: pointer; border: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); text-decoration: none; }
+    .btn-outline { border: 1px solid var(--border); color: var(--text); background: transparent; }
+    .btn-outline:hover { border-color: var(--primary); text-decoration: none; }
+
+    /* Hero */
+    .hero { text-align: center; padding: 5rem 2rem 3rem; max-width: 800px; margin: 0 auto; }
+    .hero h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero h1 span { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Code block */
+    .code-section { max-width: 700px; margin: 3rem auto; padding: 0 2rem; }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; overflow-x: auto; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+    .code-block .keyword { color: #C792EA; }
+    .code-block .string { color: #C3E88D; }
+    .code-block .comment { color: #546E7A; }
+    .code-block .func { color: #82AAFF; }
+
+    /* Features */
+    .features { max-width: 1100px; margin: 4rem auto; padding: 0 2rem; }
+    .features h2 { text-align: center; font-size: 2rem; margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; }
+    .feature-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+    .feature-card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+    .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* CTA */
+    .cta { text-align: center; padding: 5rem 2rem; }
+    .cta h2 { font-size: 2.25rem; margin-bottom: 1rem; }
+    .cta p { color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem; }
+
+    /* Footer */
+    footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2.25rem; }
+      .nav-links { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">Agent<span>Pay</span></div>
+    <div class="nav-links">
+      <a href="pricing.html">Pricing</a>
+      <a href="signup.html" class="btn btn-primary">Get Started</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Payment infrastructure for <span>AI agents</span></h1>
+    <p>Let your AI agents accept payments, manage subscriptions, and handle billing autonomously. One API call is all it takes.</p>
+    <div class="hero-buttons">
+      <a href="signup.html" class="btn btn-primary">Get Your API Key</a>
+      <a href="pricing.html" class="btn btn-outline">View Pricing</a>
+    </div>
+  </section>
+
+  <section class="code-section">
+    <div class="code-block">
+<pre><span class="comment">// Charge a customer in one API call</span>
+<span class="keyword">const</span> payment = <span class="keyword">await</span> <span class="func">fetch</span>(<span class="string">'https://agentpay.dev/v1/payments'</span>, {
+  method: <span class="string">'POST'</span>,
+  headers: {
+    <span class="string">'Authorization'</span>: <span class="string">`Bearer ${apiKey}`</span>,
+    <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>
+  },
+  body: JSON.<span class="func">stringify</span>({
+    amount: <span class="string">2999</span>,
+    currency: <span class="string">'usd'</span>,
+    customer_email: <span class="string">'user@example.com'</span>,
+    description: <span class="string">'Pro Plan - Monthly'</span>
+  })
+});</pre>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2>Built for the agentic era</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">&#9889;</div>
+        <h3>One-Call Payments</h3>
+        <p>Process payments with a single POST request. No client-side SDK, no redirects, no complexity. Your agent sends JSON, money moves.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128274;</div>
+        <h3>Sandbox Mode</h3>
+        <p>Every new account starts in sandbox. Test your integration with simulated payments before going live. Zero risk.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128176;</div>
+        <h3>Stripe-Powered</h3>
+        <p>Built on Stripe for world-class payment processing, fraud detection, and compliance. 135+ currencies supported.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128209;</div>
+        <h3>Subscription Billing</h3>
+        <p>Create recurring subscriptions with a single API call. Handle upgrades, downgrades, and cancellations programmatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128295;</div>
+        <h3>Developer-First API</h3>
+        <p>RESTful API with clear documentation, predictable responses, and helpful error messages. Ship your integration in minutes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128200;</div>
+        <h3>Real-Time Webhooks</h3>
+        <p>Get notified instantly when payments succeed, fail, or are refunded. Keep your agent in the loop with real-time events.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Start accepting payments today</h2>
+    <p>Free tier available. No credit card required to get started.</p>
+    <a href="signup.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.8rem 2rem;">Get Your API Key &rarr;</a>
+  </section>
+
+  <footer>
+    &copy; 2026 AgentPay. All rights reserved.
+  </footer>
+</body>
+</html>
