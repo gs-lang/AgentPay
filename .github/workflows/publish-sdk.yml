@@ -1,0 +1,46 @@
+name: Publish AgentPay SDK to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type (patch/minor/major) — leave blank to use version in package.json'
+        required: false
+        default: ''
+  push:
+    tags:
+      - 'sdk-v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sdk
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Bump version (optional)
+        if: ${{ github.event.inputs.version_bump != '' }}
+        run: npm version ${{ github.event.inputs.version_bump }} --no-git-tag-version
+
+      - name: Build SDK
+        run: npm run build
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Show published package info
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "Published agentpay@$PKG_VERSION to https://www.npmjs.com/package/agentpay"
