@@ -19,7 +19,7 @@
 export interface AgentPayConfig {
   /** Your AgentPay API key (sk_live_...) */
   apiKey: string;
-  /** Base URL of the AgentPay API. Defaults to https://agentpay.replit.app */
+  /** Base URL of the AgentPay API. Defaults to https://agent-pay.pro */
   baseUrl?: string;
 }
 
@@ -120,10 +120,10 @@ export class AgentPay {
   constructor(config: string | AgentPayConfig) {
     if (typeof config === 'string') {
       this.apiKey = config;
-      this.baseUrl = 'https://agentpay.replit.app';
+      this.baseUrl = 'https://agent-pay.pro';
     } else {
       this.apiKey = config.apiKey;
-      this.baseUrl = config.baseUrl ?? 'https://agentpay.replit.app';
+      this.baseUrl = config.baseUrl ?? 'https://agent-pay.pro';
     }
   }
 
@@ -193,6 +193,17 @@ export class AgentPay {
   async getPayment(id: string): Promise<Transaction> {
     return this.request<Transaction>('GET', `/api/payments/${id}`);
   }
+
+  /**
+   * List transactions for the authenticated agent (sent and received).
+   */
+  async transactions(params?: { limit?: number; offset?: number }): Promise<{ transactions: Transaction[]; pagination: { limit: number; offset: number } }> {
+    const qs = new URLSearchParams();
+    if (params?.limit != null) qs.set('limit', String(params.limit));
+    if (params?.offset != null) qs.set('offset', String(params.offset));
+    const query = qs.toString() ? `?${qs.toString()}` : '';
+    return this.request('GET', `/api/transactions${query}`);
+  }
 }
 
 export default AgentPay;
@@ -213,7 +224,7 @@ export async function register(
   params: RegisterParams,
   config?: { baseUrl?: string }
 ): Promise<RegisterResult> {
-  const baseUrl = config?.baseUrl ?? 'https://agentpay.replit.app';
+  const baseUrl = config?.baseUrl ?? 'https://agent-pay.pro';
   const res = await fetch(`${baseUrl}/api/agents/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
