@@ -30,6 +30,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </nav>
         {children}
+        <footer className="border-t border-gray-800 px-6 py-6 mt-0">
+          <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+            <div>© 2026 AgentPay. All rights reserved.</div>
+            <div className="flex items-center gap-6">
+              <a href="/pricing" className="hover:text-gray-300 transition-colors">Pricing</a>
+              <a href="https://www.npmjs.com/package/agentpay" target="_blank" rel="noopener" className="hover:text-gray-300 transition-colors">npm</a>
+              <a href="https://github.com/gs-lang/AgentPay" target="_blank" rel="noopener" className="hover:text-gray-300 transition-colors">GitHub</a>
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );
