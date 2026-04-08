@@ -16,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Agent<span className="text-brand-500">Pay</span>
             </a>
             <div className="flex items-center gap-6 text-sm">
+              <a href="/use-case" className="text-gray-400 hover:text-white transition-colors">Do I need this?</a>
               <a href="/pricing" className="text-gray-400 hover:text-white transition-colors">Pricing</a>
               <a href="/dashboard" className="text-gray-400 hover:text-white transition-colors">Dashboard</a>
               <a
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
             <div>© 2026 AgentPay. All rights reserved.</div>
             <div className="flex items-center gap-6">
+              <a href="/use-case" className="hover:text-gray-300 transition-colors">Do I need this?</a>
               <a href="/pricing" className="hover:text-gray-300 transition-colors">Pricing</a>
               <a href="https://www.npmjs.com/package/agentpay" target="_blank" rel="noopener" className="hover:text-gray-300 transition-colors">npm</a>
               <a href="https://github.com/gs-lang/AgentPay" target="_blank" rel="noopener" className="hover:text-gray-300 transition-colors">GitHub</a>
