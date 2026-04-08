@@ -146,10 +146,24 @@ export default function DashboardPage() {
         <h3 className="font-semibold mb-4">Quick actions</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
           <a
-            href="/pricing"
+            href="/dashboard/agents"
             className="flex items-center gap-2 p-3 rounded-lg border border-gray-800 hover:border-brand-500/50 hover:bg-brand-500/5 transition-colors"
           >
-            <span className="text-brand-500">↑</span>
+            <span className="text-brand-500">🤖</span>
+            My agent
+          </a>
+          <a
+            href="/dashboard/webhooks"
+            className="flex items-center gap-2 p-3 rounded-lg border border-gray-800 hover:border-brand-500/50 hover:bg-brand-500/5 transition-colors"
+          >
+            <span className="text-brand-500">⚡</span>
+            Webhooks
+          </a>
+          <a
+            href="/pricing"
+            className="flex items-center gap-2 p-3 rounded-lg border border-gray-800 hover:border-gray-600 transition-colors text-gray-300"
+          >
+            <span>↑</span>
             Upgrade plan
           </a>
           <a
@@ -169,6 +183,13 @@ export default function DashboardPage() {
           >
             <span>📦</span>
             npm SDK
+          </a>
+          <a
+            href="/login"
+            className="flex items-center gap-2 p-3 rounded-lg border border-gray-800 hover:border-gray-600 transition-colors text-gray-300"
+          >
+            <span>🔑</span>
+            Reissue key
           </a>
         </div>
       </div>
