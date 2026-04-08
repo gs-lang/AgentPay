@@ -1,18 +1,21 @@
 /**
- * AgentPay SDK
- * The simplest way to add USD payments between AI agents.
+ * agent-pay SDK
+ * Payment infrastructure for AI agents. A2A payments with one API call.
  *
  * @example
  * ```typescript
- * import { AgentPay } from 'agentpay';
+ * import { AgentPay } from 'agent-pay';
  *
- * const ap = new AgentPay('sk_live_...');
+ * const ap = new AgentPay(process.env.AGENTPAY_API_KEY);
  *
  * // Send a payment
- * await ap.pay({ to: 'agent_def456', amount: 0.25, purpose: 'parser fee' });
+ * await ap.pay({ to: 'agent_abc123', amount: 0.50, purpose: 'tool usage fee' });
+ *
+ * // Accept a payment (merchant side)
+ * await ap.accept({ amount: 0.50, purpose: 'data enrichment' });
  *
  * // Check balance
- * const { balance } = await ap.balance();
+ * const { balance } = await ap.balance('your_agent_id');
  * ```
  */
 
@@ -92,6 +95,24 @@ export interface FundResult {
   checkout_url: string;
 }
 
+export interface AcceptParams {
+  /** Amount in USD to request */
+  amount: number;
+  /** Optional human-readable purpose */
+  purpose?: string;
+  /** Currency code. Defaults to 'usd' */
+  currency?: string;
+}
+
+export interface AcceptResult {
+  id: string;
+  amount: number;
+  currency: string;
+  purpose: string | null;
+  status: string;
+  created_at: string;
+}
+
 export interface Transaction {
   id: string;
   from_agent_id: string | null;
@@ -158,6 +179,18 @@ export class AgentPay {
   async pay(params: PayParams): Promise<PayResult> {
     return this.request<PayResult>('POST', '/api/payments/create', {
       to_agent_id: params.to,
+      amount: params.amount,
+      currency: params.currency ?? 'usd',
+      purpose: params.purpose,
+    });
+  }
+
+  /**
+   * Create a payment request (merchant side).
+   * Use this when your agent is receiving payment for a service.
+   */
+  async accept(params: AcceptParams): Promise<AcceptResult> {
+    return this.request<AcceptResult>('POST', '/api/accept', {
       amount: params.amount,
       currency: params.currency ?? 'usd',
       purpose: params.purpose,

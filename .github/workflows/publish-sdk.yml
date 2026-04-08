@@ -43,4 +43,4 @@ jobs:
       - name: Show published package info
         run: |
           PKG_VERSION=$(node -p "require('./package.json').version")
-          echo "Published agentpay@$PKG_VERSION to https://www.npmjs.com/package/agentpay"
+          echo "Published agent-pay@$PKG_VERSION to https://www.npmjs.com/package/agent-pay"
