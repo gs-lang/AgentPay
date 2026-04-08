@@ -1,0 +1,19 @@
+{
+  "name": "agentpay-demo",
+  "version": "1.0.0",
+  "description": "AI Agent with Payments — demo using AgentPay",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "agent-pay": "^0.1.0",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["ai", "agents", "payments", "langchain", "nodejs"],
+  "license": "MIT"
+}
