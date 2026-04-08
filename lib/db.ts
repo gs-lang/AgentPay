@@ -88,6 +88,11 @@ function migrate(db: Database.Database) {
     db.exec('ALTER TABLE agents ADD COLUMN test_api_key_hash TEXT');
     db.exec('ALTER TABLE agents ADD COLUMN test_api_key_prefix TEXT');
   }
+  if (!cols.includes('old_api_key_hash')) {
+    // Grace period: old key stays valid until grace_expires_at
+    db.exec('ALTER TABLE agents ADD COLUMN old_api_key_hash TEXT');
+    db.exec("ALTER TABLE agents ADD COLUMN api_key_grace_expires_at TEXT");
+  }
   const txnCols = (db.pragma('table_info(transactions)') as { name: string }[]).map(c => c.name);
   if (!txnCols.includes('test_mode')) {
     db.exec('ALTER TABLE transactions ADD COLUMN test_mode INTEGER NOT NULL DEFAULT 0');
