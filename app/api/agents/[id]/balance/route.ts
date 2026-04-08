@@ -30,10 +30,14 @@ export async function GET(
       return NextResponse.json({ error: 'Agent not found' }, { status: 404 });
     }
 
+    const testMode = auth.testMode;
+
     return NextResponse.json({
       agent_id: agent.id,
-      balance: agent.balance_cents / 100,
+      balance: testMode ? 100.00 : agent.balance_cents / 100,
       currency: 'usd',
+      test_mode: testMode,
+      ...(testMode && { test_transactions_remaining: 1000 }),
     });
   } catch (err: unknown) {
     console.error('balance error:', err);

@@ -25,6 +25,8 @@ function migrate(db: Database.Database) {
       email TEXT UNIQUE NOT NULL,
       api_key_hash TEXT NOT NULL,
       api_key_prefix TEXT NOT NULL,
+      test_api_key_hash TEXT,
+      test_api_key_prefix TEXT,
       balance_cents INTEGER NOT NULL DEFAULT 0,
       stripe_customer_id TEXT,
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
@@ -39,6 +41,7 @@ function migrate(db: Database.Database) {
       purpose TEXT,
       status TEXT NOT NULL DEFAULT 'completed',
       stripe_payment_intent_id TEXT,
+      test_mode INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       FOREIGN KEY (from_agent_id) REFERENCES agents(id),
       FOREIGN KEY (to_agent_id) REFERENCES agents(id)
@@ -55,6 +58,17 @@ function migrate(db: Database.Database) {
       FOREIGN KEY (agent_id) REFERENCES agents(id)
     );
   `);
+
+  // Additive migrations for existing DBs
+  const cols = (db.pragma('table_info(agents)') as { name: string }[]).map(c => c.name);
+  if (!cols.includes('test_api_key_hash')) {
+    db.exec('ALTER TABLE agents ADD COLUMN test_api_key_hash TEXT');
+    db.exec('ALTER TABLE agents ADD COLUMN test_api_key_prefix TEXT');
+  }
+  const txnCols = (db.pragma('table_info(transactions)') as { name: string }[]).map(c => c.name);
+  if (!txnCols.includes('test_mode')) {
+    db.exec('ALTER TABLE transactions ADD COLUMN test_mode INTEGER NOT NULL DEFAULT 0');
+  }
 }
 
 // Generate API key: prefix visible, rest hashed in DB
@@ -64,6 +78,18 @@ export function generateApiKey(): { apiKey: string; hash: string; prefix: string
   const prefix = `sk_live_${raw.slice(0, 8)}`;
   const hash = createHash('sha256').update(apiKey).digest('hex');
   return { apiKey, hash, prefix };
+}
+
+export function generateTestApiKey(): { apiKey: string; hash: string; prefix: string } {
+  const raw = randomBytes(32).toString('hex');
+  const apiKey = `test_sk_${raw}`;
+  const prefix = `test_sk_${raw.slice(0, 8)}`;
+  const hash = createHash('sha256').update(apiKey).digest('hex');
+  return { apiKey, hash, prefix };
+}
+
+export function isTestKey(apiKey: string): boolean {
+  return apiKey.startsWith('test_sk_');
 }
 
 export function hashApiKey(apiKey: string): string {

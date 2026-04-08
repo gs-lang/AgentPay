@@ -42,40 +42,51 @@ export async function POST(req: NextRequest) {
     }
 
     const amountCents = Math.round(amount * 100);
+    const testMode = auth.testMode;
 
-    if (sender.balance_cents < amountCents) {
+    // Test mode: use virtual balances (100 USD pre-seeded), skip Stripe
+    const TEST_BALANCE_CENTS = 10_000; // $100 virtual
+    const effectiveBalance = testMode ? TEST_BALANCE_CENTS : sender.balance_cents;
+
+    if (effectiveBalance < amountCents) {
       return NextResponse.json({ error: 'Insufficient balance' }, { status: 402 });
     }
 
-    // Create a Stripe Payment Intent to log the payment in Stripe
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: amountCents,
-      currency,
-      payment_method_types: ['card'],
-      metadata: {
-        from_agent_id: auth.agentId,
-        to_agent_id,
-        purpose: purpose || '',
-        type: 'agent_payment',
-      },
-      confirm: false, // internal ledger transfer — confirm in test if needed
-      capture_method: 'manual',
-    });
-
     const txnId = `txn_${uuidv4().replace(/-/g, '').slice(0, 12)}`;
+    let stripePaymentIntentId: string | null = null;
 
-    // Update balances atomically
+    if (!testMode) {
+      // Create a Stripe Payment Intent to log the payment in Stripe
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amountCents,
+        currency,
+        payment_method_types: ['card'],
+        metadata: {
+          from_agent_id: auth.agentId,
+          to_agent_id,
+          purpose: purpose || '',
+          type: 'agent_payment',
+        },
+        confirm: false,
+        capture_method: 'manual',
+      });
+      stripePaymentIntentId = paymentIntent.id;
+    }
+
+    // Update balances atomically (skip for test mode — virtual balances don't persist)
     const transfer = db.transaction(() => {
-      db.prepare(
-        'UPDATE agents SET balance_cents = balance_cents - ? WHERE id = ?'
-      ).run(amountCents, auth.agentId);
-      db.prepare(
-        'UPDATE agents SET balance_cents = balance_cents + ? WHERE id = ?'
-      ).run(amountCents, to_agent_id);
+      if (!testMode) {
+        db.prepare(
+          'UPDATE agents SET balance_cents = balance_cents - ? WHERE id = ?'
+        ).run(amountCents, auth.agentId);
+        db.prepare(
+          'UPDATE agents SET balance_cents = balance_cents + ? WHERE id = ?'
+        ).run(amountCents, to_agent_id);
+      }
       db.prepare(`
-        INSERT INTO transactions (id, from_agent_id, to_agent_id, amount_cents, currency, purpose, status, stripe_payment_intent_id)
-        VALUES (?, ?, ?, ?, ?, ?, 'completed', ?)
-      `).run(txnId, auth.agentId, to_agent_id, amountCents, currency, purpose || null, paymentIntent.id);
+        INSERT INTO transactions (id, from_agent_id, to_agent_id, amount_cents, currency, purpose, status, stripe_payment_intent_id, test_mode)
+        VALUES (?, ?, ?, ?, ?, ?, 'completed', ?, ?)
+      `).run(txnId, auth.agentId, to_agent_id, amountCents, currency, purpose || null, stripePaymentIntentId, testMode ? 1 : 0);
     });
 
     transfer();
@@ -89,8 +100,8 @@ export async function POST(req: NextRequest) {
         currency,
         purpose: purpose || null,
         status: 'completed',
-        stripe_payment_intent_id: paymentIntent.id,
-        client_secret: paymentIntent.client_secret,
+        test_mode: testMode,
+        stripe_payment_intent_id: stripePaymentIntentId,
         created_at: new Date().toISOString(),
       },
       { status: 201 }

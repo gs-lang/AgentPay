@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
-import { getDb, generateApiKey } from '@/lib/db';
+import { getDb, generateApiKey, generateTestApiKey } from '@/lib/db';
 import { stripe } from '@/lib/stripe';
 
 export async function POST(req: NextRequest) {
@@ -31,18 +31,20 @@ export async function POST(req: NextRequest) {
 
     const id = `agent_${uuidv4().replace(/-/g, '').slice(0, 12)}`;
     const { apiKey, hash, prefix } = generateApiKey();
+    const { apiKey: testApiKey, hash: testHash, prefix: testPrefix } = generateTestApiKey();
 
     db.prepare(`
-      INSERT INTO agents (id, name, email, api_key_hash, api_key_prefix, balance_cents, stripe_customer_id)
-      VALUES (?, ?, ?, ?, ?, 0, ?)
-    `).run(id, name, email, hash, prefix, stripeCustomerId);
+      INSERT INTO agents (id, name, email, api_key_hash, api_key_prefix, test_api_key_hash, test_api_key_prefix, balance_cents, stripe_customer_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?)
+    `).run(id, name, email, hash, prefix, testHash, testPrefix, stripeCustomerId);
 
     return NextResponse.json(
       {
         id,
         name,
         email,
-        api_key: apiKey, // returned only once
+        api_key: apiKey,        // live key — returned only once
+        test_api_key: testApiKey, // sandbox key — free, no Stripe required
         balance: 0,
         currency: 'usd',
         stripe_connected: !!stripeCustomerId,
