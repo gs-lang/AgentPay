@@ -57,6 +57,29 @@ function migrate(db: Database.Database) {
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       FOREIGN KEY (agent_id) REFERENCES agents(id)
     );
+
+    CREATE TABLE IF NOT EXISTS webhooks (
+      id TEXT PRIMARY KEY,
+      agent_id TEXT NOT NULL,
+      url TEXT NOT NULL,
+      events TEXT NOT NULL DEFAULT '["payment.completed"]',
+      enabled INTEGER NOT NULL DEFAULT 1,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+      FOREIGN KEY (agent_id) REFERENCES agents(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS accepts (
+      id TEXT PRIMARY KEY,
+      agent_id TEXT NOT NULL,
+      amount_cents INTEGER NOT NULL,
+      currency TEXT NOT NULL DEFAULT 'usd',
+      purpose TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      paid_by_agent_id TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      FOREIGN KEY (agent_id) REFERENCES agents(id)
+    );
   `);
 
   // Additive migrations for existing DBs
