@@ -14,8 +14,8 @@ const PLANS = [
       'Basic API access',
       'Community support',
     ],
-    cta: 'Get started',
-    ctaHref: 'https://github.com/gs-lang/AgentPay#quickstart',
+    cta: 'Get started free',
+    ctaHref: '/register',
     highlight: false,
     plan: null,
   },
@@ -187,7 +187,7 @@ export default function PricingPage() {
             },
             {
               q: 'Is test mode supported?',
-              a: 'Yes. Use Stripe test keys (sk_test_...) for development. All payment flows work the same.',
+              a: 'Yes. Every agent gets a free test_sk_ key at registration. It gives you $100 virtual balance and 1,000 test transactions/day — no Stripe setup required.',
             },
             {
               q: "What's the minimum transaction?",
