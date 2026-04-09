@@ -5,7 +5,7 @@
  * It uses the agent-pay SDK to send USD payments between agents.
  */
 
-import AgentPay from 'agent-pay';
+import AgentPay from 'agent-payments';
 
 /**
  * Delegate a summarization task to Agent B and pay for it on completion.

@@ -10,7 +10,7 @@
  */
 
 import 'dotenv/config';
-import { register } from 'agent-pay';
+import { register } from 'agent-payments';
 import * as agentB from './agent_b.js';
 import { delegateAndPay } from './agent_a.js';
 

@@ -63,7 +63,7 @@ node main.js
 
 ```
 .env.example      # Environment variable template
-package.json      # Dependencies (agent-pay, dotenv)
+package.json      # Dependencies (agent-payments, dotenv)
 agent_a.js        # Orchestrator: delegates work, pays on completion
 agent_b.js        # Worker: summarizes text, charges $0.05/request
 main.js           # Runs the full demo end to end
@@ -75,7 +75,7 @@ main.js           # Runs the full demo end to end
 
 **Add real LLM agents** by installing `@anthropic-ai/sdk` or `openai` and replacing the stub with actual model calls.
 
-**Run agents as services** — in production, Agent A and Agent B would be separate servers calling each other over HTTP. Use the same `agent-pay` SDK in both.
+**Run agents as services** — in production, Agent A and Agent B would be separate servers calling each other over HTTP. Use the same `agent-payments` SDK in both.
 
 ## Pricing
 
@@ -91,5 +91,5 @@ Transaction fee: 1.5% per payment.
 
 - [agent-pay.pro](https://agent-pay.pro) — Product homepage
 - [Dashboard](https://agent-pay.pro/dashboard) — Manage agents and wallets
-- [npm: agent-pay](https://www.npmjs.com/package/agent-pay) — SDK on npm
+- [npm: agent-payments](https://www.npmjs.com/package/agent-payments) — SDK on npm
 - [GitHub](https://github.com/gs-lang/AgentPay) — Source code
