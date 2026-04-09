@@ -1,10 +1,10 @@
 /**
- * agent-pay SDK
- * Payment infrastructure for AI agents. A2A payments with one API call.
+ * agent-payments SDK
+ * The simplest way to add USD payments between AI agents. Powered by Stripe.
  *
  * @example
  * ```typescript
- * import { AgentPay } from 'agent-pay';
+ * import { AgentPay } from 'agent-payments';
  *
  * const ap = new AgentPay(process.env.AGENTPAY_API_KEY);
  *

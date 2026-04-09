@@ -1,7 +1,7 @@
 {
-  "name": "agent-pay",
-  "version": "0.1.0",
-  "description": "Payment infrastructure for AI agents. A2A payments with one API call. No crypto. No complexity.",
+  "name": "agent-payments",
+  "version": "0.1.1",
+  "description": "The simplest way to add USD payments between AI agents. Powered by Stripe.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -16,7 +16,7 @@
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["ai", "agents", "payments", "langchain", "crewai", "autogen", "langgraph", "a2a", "multi-agent", "agent-payments", "llm", "openai", "anthropic", "agent-pay"],
+  "keywords": ["agent-payments", "ai", "agents", "payments", "a2a", "multi-agent", "langchain", "crewai", "autogen", "langgraph", "stripe", "mcp", "llm", "openai", "anthropic"],
   "author": "AgentPay",
   "license": "MIT",
   "repository": {

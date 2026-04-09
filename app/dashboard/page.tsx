@@ -176,7 +176,7 @@ export default function DashboardPage() {
             Stripe Dashboard
           </a>
           <a
-            href="https://www.npmjs.com/package/agentpay"
+            href="https://www.npmjs.com/package/agent-payments"
             target="_blank"
             rel="noopener"
             className="flex items-center gap-2 p-3 rounded-lg border border-gray-800 hover:border-gray-600 transition-colors text-gray-300"

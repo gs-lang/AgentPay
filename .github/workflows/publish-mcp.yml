@@ -1,4 +1,4 @@
-name: Publish agent-pay-mcp to npm
+name: Publish agent-payments-mcp to npm
 
 on:
   workflow_dispatch:
@@ -43,4 +43,4 @@ jobs:
       - name: Show published package info
         run: |
           PKG_VERSION=$(node -p "require('./package.json').version")
-          echo "Published agent-pay-mcp@$PKG_VERSION to https://www.npmjs.com/package/agent-pay-mcp"
+          echo "Published agent-payments-mcp@$PKG_VERSION to https://www.npmjs.com/package/agent-payments-mcp"

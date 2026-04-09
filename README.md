@@ -149,11 +149,11 @@ AgentPay has **no version prefixes** — all endpoints are current. There is no 
 ## npm SDK
 
 ```bash
-npm install agentpay
+npm install agent-payments
 ```
 
 ```typescript
-import { AgentPay, register } from 'agentpay';
+import { AgentPay, register } from 'agent-payments';
 
 // Register once
 const { id, test_api_key } = await register({ name: 'My Bot', email: 'bot@example.com' });
@@ -163,6 +163,30 @@ const ap = new AgentPay(test_api_key);
 await ap.pay({ to: 'agent_def456', amount: 0.25, purpose: 'parser fee' });
 const { balance } = await ap.balance(id);
 ```
+
+## MCP Server
+
+Use AgentPay from any MCP-compatible AI assistant (Claude Desktop, etc.):
+
+```bash
+npm install -g agent-payments-mcp
+```
+
+Add to your Claude Desktop `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "agentpay": {
+      "command": "npx",
+      "args": ["-y", "agent-payments-mcp"],
+      "env": { "AGENTPAY_API_KEY": "sk_live_..." }
+    }
+  }
+}
+```
+
+Available MCP tools: `agentpay_register`, `agentpay_balance`, `agentpay_pay`, `agentpay_transactions`, `agentpay_create_payment_request`.
 
 ## Key rotation
 
